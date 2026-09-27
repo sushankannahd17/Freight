@@ -1,13 +1,13 @@
 /**
  * apiService.ts
  * Centralised client for all FreightIQ backend endpoints.
- * All calls go through Vite's /api proxy -> http://localhost:3001
+ * Uses VITE_API_URL in production and Vite's /api proxy locally.
  */
 
 import type { VoyageRequest, CharterRecommendation, Port, VesselClass, Route } from '../types/freight';
 import type { ForecastResponse } from './freightForecastService';
 
-const BASE = '/api';
+const BASE = import.meta.env.VITE_API_URL || '/api';
 
 async function apiFetch<T>(path: string, options?: RequestInit): Promise<T> {
   const res = await fetch(`${BASE}${path}`, {

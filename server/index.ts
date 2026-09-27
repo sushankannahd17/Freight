@@ -7,8 +7,9 @@ import { VoyageRequest } from '../src/types/freight';
 
 const app = express();
 const PORT = process.env.PORT || 3001;
+const FRONTEND_URL = process.env.FRONTEND_URL;
 
-app.use(cors());
+app.use(cors(FRONTEND_URL ? { origin: FRONTEND_URL } : undefined));
 app.use(express.json());
 
 // Healthcheck

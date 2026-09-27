@@ -9,11 +9,15 @@ export default defineConfig({
     port: 5173,
     proxy: {
       '/api': {
-        target: 'http://localhost:3001',
+        target: process.env.BACKEND_URL || 'http://localhost:3001',
         changeOrigin: true,
         secure: false,
       },
     },
+  },
+  preview: {
+    host: '0.0.0.0',
+    allowedHosts: ['freight-sqn2.onrender.com'],
   },
   build: {
     rollupOptions: {
