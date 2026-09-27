@@ -1,0 +1,192 @@
+version: '3.8'
+
+services:
+  # ============================================================================
+  # POSTGRESQL + POSTGIS
+  # ============================================================================
+  postgres:
+    image: postgis/postgis:15-3.4
+    container_name: freightiq_postgres
+    environment:
+      POSTGRES_DB: freightiq
+      POSTGRES_USER: freightiq_user
+      POSTGRES_PASSWORD: changeme_secure_password
+      PGDATA: /var/lib/postgresql/data/pgdata
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./docker/postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U freightiq_user -d freightiq"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - freightiq_network
+
+  # ============================================================================
+  # REDIS
+  # ============================================================================
+  redis:
+    image: redis:7-alpine
+    container_name: freightiq_redis
+    command: redis-server --appendonly yes
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+    networks:
+      - freightiq_network
+
+  # ============================================================================
+  # FASTAPI APPLICATION
+  # ============================================================================
+  api:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    container_name: freightiq_api
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+    environment:
+      - DATABASE_URL=postgresql+psycopg://freightiq_user:changeme_secure_password@postgres:5432/freightiq
+      - REDIS_URL=redis://redis:6379/0
+      - CELERY_BROKER_URL=redis://redis:6379/1
+      - CELERY_RESULT_BACKEND=redis://redis:6379/1
+      - MLFLOW_TRACKING_URI=http://mlflow:5000
+      - SECRET_KEY=dev_secret_key_change_in_production
+      - JWT_SECRET_KEY=dev_jwt_secret_change_in_production
+      - ENVIRONMENT=development
+      - DEBUG=true
+      - LOG_LEVEL=INFO
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./app:/app/app
+      - ./data:/app/data
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - freightiq_network
+    restart: unless-stopped
+
+  # ============================================================================
+  # CELERY WORKER
+  # ============================================================================
+  celery_worker:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    container_name: freightiq_celery_worker
+    command: celery -A app.ingestion.celery worker --loglevel=info
+    environment:
+      - DATABASE_URL=postgresql+psycopg://freightiq_user:changeme_secure_password@postgres:5432/freightiq
+      - REDIS_URL=redis://redis:6379/0
+      - CELERY_BROKER_URL=redis://redis:6379/1
+      - CELERY_RESULT_BACKEND=redis://redis:6379/1
+      - LOG_LEVEL=INFO
+    volumes:
+      - ./app:/app/app
+      - ./data:/app/data
+    depends_on:
+      - postgres
+      - redis
+    networks:
+      - freightiq_network
+    restart: unless-stopped
+
+  # ============================================================================
+  # CELERY BEAT (Scheduler)
+  # ============================================================================
+  celery_beat:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    container_name: freightiq_celery_beat
+    command: celery -A app.ingestion.celery beat --loglevel=info
+    environment:
+      - DATABASE_URL=postgresql+psycopg://freightiq_user:changeme_secure_password@postgres:5432/freightiq
+      - REDIS_URL=redis://redis:6379/0
+      - CELERY_BROKER_URL=redis://redis:6379/1
+      - CELERY_RESULT_BACKEND=redis://redis:6379/1
+      - LOG_LEVEL=INFO
+    volumes:
+      - ./app:/app/app
+    depends_on:
+      - postgres
+      - redis
+    networks:
+      - freightiq_network
+    restart: unless-stopped
+
+  # ============================================================================
+  # MLFLOW
+  # ============================================================================
+  mlflow:
+    image: ghcr.io/mlflow/mlflow:v2.18.0
+    container_name: freightiq_mlflow
+    command: >
+      mlflow server
+      --host 0.0.0.0
+      --port 5000
+      --backend-store-uri postgresql://freightiq_user:changeme_secure_password@postgres:5432/mlflow
+      --default-artifact-root /mlflow/artifacts
+    ports:
+      - "5000:5000"
+    volumes:
+      - mlflow_data:/mlflow
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - freightiq_network
+    restart: unless-stopped
+
+  # ============================================================================
+  # PGADMIN (Optional - for database management)
+  # ============================================================================
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: freightiq_pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@freightiq.local
+      PGADMIN_DEFAULT_PASSWORD: admin
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+    ports:
+      - "5050:80"
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+    depends_on:
+      - postgres
+    networks:
+      - freightiq_network
+    profiles:
+      - tools
+
+# ============================================================================
+# VOLUMES
+# ============================================================================
+volumes:
+  postgres_data:
+    driver: local
+  redis_data:
+    driver: local
+  mlflow_data:
+    driver: local
+  pgadmin_data:
+    driver: local
+
+# ============================================================================
+# NETWORKS
+# ============================================================================
+networks:
+  freightiq_network:
+    driver: bridge

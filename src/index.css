@@ -1,0 +1,472 @@
+/* =========================================================
+   MANZIL BESPOKE MARITIME INTELLIGENCE TYPOGRAPHY SYSTEM
+   Primary: ABC Diatype (Headlines) + Suisse Int'l (UI) + Berkeley Mono (Data)
+   Fallback CDN Stack: Archivo + Public Sans + Space Mono / DM Mono
+   ========================================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,600;0,700;0,800;0,900;1,700&family=Public+Sans:wght@400;500;600;700;800&family=DM+Mono:wght@400;500&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap');
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --font-headline: "ABC Diatype", "Diatype", "Archivo", -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-body: "Suisse Int'l", "Suisse Intl", "Suisse", "Public Sans", -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-mono: "Berkeley Mono", "BerkeleyMono", "Space Mono", "DM Mono", monospace;
+    --bg-page: #F8FAFC;
+    --bg-card: #FFFFFF;
+    --text-primary: #0F172A;
+    --text-secondary: #1E293B;
+    --text-muted: #475569;
+    --border-color: #E2E8F0;
+    --color-teal-600: #0D9488;
+    --color-teal-700: #0F766E;
+  }
+
+  body {
+    background-color: #F8FAFC;
+    background-image: 
+      radial-gradient(at 0% 0%, rgba(13, 148, 136, 0.04) 0px, transparent 40%),
+      radial-gradient(at 100% 100%, rgba(56, 189, 248, 0.04) 0px, transparent 40%);
+    background-attachment: fixed;
+    color: #0F172A;
+    font-family: var(--font-body);
+    margin: 0;
+    padding: 0;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11", "tnum";
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3, .font-display {
+    font-family: var(--font-headline);
+    letter-spacing: -0.03em;
+  }
+}
+
+.font-diatype, .font-headline {
+  font-family: var(--font-headline);
+}
+
+.font-suisse, .font-body {
+  font-family: var(--font-body);
+}
+
+.font-berkeley, .font-mono-num, .font-mono {
+  font-family: var(--font-mono);
+  font-feature-settings: "tnum", "lnum", "zero";
+}
+
+/* Fallback class matchers for legacy inline font classes */
+[class*="Plus_Jakarta_Sans"], [class*="Syne"], [class*="Outfit"] {
+  font-family: var(--font-headline);
+}
+
+[class*="Inter"], [class*="Manrope"] {
+  font-family: var(--font-body);
+}
+
+[class*="JetBrains_Mono"], [class*="IBM_Plex_Mono"] {
+  font-family: var(--font-mono);
+}
+
+/* =========================================================
+   MANZIL PURE WHITE TERMINAL DESIGN SYSTEM
+   ========================================================= */
+
+/* Signature Pure White Card */
+.manzil-glass-card {
+  background: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  border-radius: 0.875rem;
+  box-shadow: 0 1px 3px 0 rgba(15, 23, 42, 0.04), 0 1px 2px -1px rgba(15, 23, 42, 0.03);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.manzil-glass-card:hover {
+  background: #FFFFFF;
+  border-color: #0D9488;
+  box-shadow: 0 10px 25px -5px rgba(13, 148, 136, 0.12), 0 2px 8px -1px rgba(15, 23, 42, 0.04);
+  transform: translateY(-2px);
+}
+
+/* Signature Elevated Operational Panel */
+.manzil-glass-panel {
+  background: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  border-radius: 1.125rem;
+  box-shadow: 0 4px 6px -1px rgba(15, 23, 42, 0.05), 0 2px 4px -2px rgba(15, 23, 42, 0.05);
+}
+
+/* Navigation Header Bar */
+.manzil-navbar-glass {
+  background: #FFFFFF;
+  border-bottom: 1px solid #E2E8F0;
+  box-shadow: 0 1px 3px 0 rgba(15, 23, 42, 0.05);
+}
+
+/* Terminal KPI Metric Box */
+.manzil-kpi-box {
+  background: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  border-radius: 0.75rem;
+  padding: 1rem 1.25rem;
+  box-shadow: 0 1px 3px 0 rgba(15, 23, 42, 0.03);
+  transition: all 0.2s ease;
+}
+
+.manzil-kpi-box:hover {
+  background: #FFFFFF;
+  border-color: #0D9488;
+  box-shadow: 0 6px 18px -4px rgba(13, 148, 136, 0.12);
+  transform: translateY(-1px);
+}
+
+/* Primary Maritime Teal Button */
+.btn-manzil-teal {
+  background-color: #0D9488;
+  color: #FFFFFF;
+  font-weight: 700;
+  border: 1px solid #0F766E;
+  border-radius: 0.625rem;
+  padding: 0.5rem 1.125rem;
+  box-shadow: 0 2px 8px rgba(13, 148, 136, 0.25);
+  transition: all 0.15s ease;
+}
+
+.btn-manzil-teal:hover {
+  background-color: #0F766E;
+  box-shadow: 0 4px 14px rgba(13, 148, 136, 0.35);
+  transform: translateY(-1px);
+}
+
+.btn-manzil-teal:active {
+  background-color: #115E59;
+  transform: scale(0.98);
+}
+
+/* Secondary Button */
+.btn-manzil-secondary {
+  background-color: #F1F5F9;
+  color: #0F172A;
+  font-weight: 700;
+  border: 1px solid #CBD5E1;
+  border-radius: 0.625rem;
+  padding: 0.5rem 1.125rem;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+  transition: all 0.15s ease;
+}
+
+.btn-manzil-secondary:hover {
+  background-color: #E2E8F0;
+  border-color: #94A3B8;
+  color: #0F172A;
+  transform: translateY(-1px);
+}
+
+.btn-manzil-secondary:active {
+  transform: scale(0.98);
+}
+
+/* Crisp Form Inputs & Selects */
+.manzil-input,
+.manzil-select {
+  background-color: #FFFFFF;
+  border: 1px solid #CBD5E1;
+  color: #0F172A;
+  border-radius: 0.625rem;
+  padding: 0.5rem 0.875rem;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.03);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.manzil-input:hover,
+.manzil-select:hover {
+  border-color: #94A3B8;
+}
+
+.manzil-input:focus,
+.manzil-select:focus {
+  outline: none;
+  border-color: #0D9488;
+  box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.18);
+}
+
+/* Data Provenance & Status Badges - High Visibility on White */
+.badge-teal {
+  background: #CCFBF1;
+  color: #0F766E;
+  border: 1px solid #5EEAD4;
+  font-weight: 700;
+}
+
+.badge-sky {
+  background: #E0F2FE;
+  color: #0369A1;
+  border: 1px solid #7DD3FC;
+  font-weight: 700;
+}
+
+.badge-emerald {
+  background: #D1FAE5;
+  color: #047857;
+  border: 1px solid #6EE7B7;
+  font-weight: 700;
+}
+
+.badge-amber {
+  background: #FEF3C7;
+  color: #B45309;
+  border: 1px solid #FDE68A;
+  font-weight: 700;
+}
+
+.badge-rose {
+  background: #FFE4E6;
+  color: #BE123C;
+  border: 1px solid #FDA4AF;
+  font-weight: 700;
+}
+
+.badge-slate {
+  background: #F1F5F9;
+  color: #1E293B;
+  border: 1px solid #CBD5E1;
+  font-weight: 700;
+}
+
+/* Port & Route Code Badges */
+.port-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  padding: 0.1875rem 0.5rem;
+  border-radius: 0.375rem;
+  background: #CCFBF1;
+  color: #0F766E;
+  border: 1px solid #5EEAD4;
+}
+
+.route-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  padding: 0.25rem 0.625rem;
+  border-radius: 0.5rem;
+  background: #F1F5F9;
+  color: #0F172A;
+  border: 1px solid #CBD5E1;
+}
+
+/* Tab Active Indicator Transition */
+.tab-active {
+  position: relative;
+  transition: all 0.15s ease;
+}
+
+.tab-active::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 10%;
+  right: 10%;
+  height: 2px;
+  background: #0D9488;
+  border-radius: 2px;
+}
+
+/* Custom Range Input */
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  background: transparent;
+  width: 100%;
+}
+
+input[type="range"]:focus {
+  outline: none;
+}
+
+input[type="range"]::-webkit-slider-runnable-track {
+  height: 6px;
+  background: #EFEBE4;
+  border-radius: 3px;
+  border: 1px solid #D8D0C5;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  height: 18px;
+  width: 18px;
+  border-radius: 50%;
+  background: #0D9488;
+  margin-top: -6px;
+  cursor: pointer;
+  border: 2px solid #FFFFFF;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.15);
+  transition: transform 0.15s ease, background-color 0.15s ease;
+}
+
+input[type="range"]::-webkit-slider-thumb:hover {
+  transform: scale(1.15);
+  background: #0F766E;
+}
+
+/* Smooth Page Entrance Transition */
+.manzil-page-transition {
+  animation: manzilFadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes manzilFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Respect Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  .manzil-page-transition {
+    animation: none !important;
+  }
+  * {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}
+
+/* Monospace font utility for numerical values & rates */
+.font-mono-num {
+  font-family: 'IBM Plex Mono', monospace;
+  font-feature-settings: "tnum", "lnum";
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #F4F0EB;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #D8D0C5;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #BDB2A5;
+}
+
+/* Recharts Tooltip Styling - Crisp Light Terminal */
+.recharts-default-tooltip {
+  background-color: #FFFFFF !important;
+  border: 1px solid #D8D0C5 !important;
+  border-radius: 0.75rem !important;
+  color: #0F172A !important;
+  box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.1) !important;
+  padding: 0.75rem 1rem !important;
+}
+
+/* MapLibre Popup Light Style */
+.custom-maplibre-popup .maplibregl-popup-content {
+  background: transparent !important;
+  padding: 0 !important;
+  box-shadow: none !important;
+}
+
+.custom-maplibre-popup .maplibregl-popup-tip {
+  border-top-color: #FFFFFF !important;
+}
+
+/* =========================================================
+   KEYFRAME ANIMATIONS FOR MARITIME MOTION TERMINAL
+   ========================================================= */
+
+@keyframes marquee {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+@keyframes floatSlow {
+  0%, 100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(0, var(--float-offset, -4px), 0);
+  }
+}
+
+@keyframes radarPulse {
+  0% {
+    transform: scale(0.9);
+    opacity: 0.8;
+  }
+  50% {
+    transform: scale(1.15);
+    opacity: 0.3;
+  }
+  100% {
+    transform: scale(0.9);
+    opacity: 0.8;
+  }
+}
+
+@keyframes routeFlow {
+  0% {
+    stroke-dashoffset: 40;
+  }
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes gridDrift {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 32px 32px;
+  }
+}
+
+@keyframes valueFlash {
+  0% {
+    background-color: rgba(13, 148, 136, 0.25);
+  }
+  100% {
+    background-color: transparent;
+  }
+}
+
+.animate-value-flash {
+  animation: valueFlash 1s ease-out forwards;
+}
+
+.maritime-grid-pattern {
+  background-size: 32px 32px;
+  background-image: 
+    linear-gradient(to right, rgba(203, 213, 225, 0.25) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(203, 213, 225, 0.25) 1px, transparent 1px);
+  animation: gridDrift 20s linear infinite;
+}
