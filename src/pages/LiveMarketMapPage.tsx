@@ -5,7 +5,6 @@ import { PORTS } from '../data/mockData';
 import {
   ScrollReveal,
   StaggerContainer,
-  Marquee,
 } from '../components/common/AnimationSystem';
 import {
   Compass,
@@ -33,16 +32,6 @@ export const LiveMarketMapPage: React.FC = () => {
   const toggleLayer = (key: keyof typeof activeLayers) => {
     setActiveLayers((prev) => ({ ...prev, [key]: !prev[key] }));
   };
-
-  const tickerItems = [
-    'PARADIP 16.0M DRAFT CLEARANCE',
-    'VISAKHAPATNAM 16.5M DEEPWATER BERTH',
-    'HALDIA 8.5M SILTATION RESTRICTION',
-    'DHAMRA 18.0M DEEPWATER CHANNEL',
-    'GANGAVARAM 19.5M MAXIMUM DRAFT',
-    '126 AIS VESSELS MONITORED',
-    'OPEN-METEO WEATHER FEEDS ACTIVE',
-  ];
 
   return (
     <div className="space-y-6 pb-16 font-sans text-slate-900 animate-in fade-in duration-300">

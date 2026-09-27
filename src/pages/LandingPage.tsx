@@ -8,8 +8,6 @@ import {
   CountUp,
   ScrollReveal,
   StaggerContainer,
-  Marquee,
-  AutoScrollCards,
   SectionHeader,
   FloatingElement,
   PulseIndicator,
@@ -46,7 +44,6 @@ import {
   Compass,
   Database,
   Zap,
-  Radio,
   Clock,
   CheckCircle,
 } from 'lucide-react';
@@ -68,19 +65,6 @@ export const LandingPage: React.FC = () => {
   const [selectedOppModal, setSelectedOppModal] = useState<any | null>(null);
 
   const forecastResponse = generateFreightForecast(selectedRouteId);
-
-  const marqueeText = [
-    'GLOBAL FREIGHT INTELLIGENCE TERMINAL',
-    'EAST COAST INDIA BULK CORRIDORS',
-    'CAPESIZE 180K DWT',
-    'PANAMAX 75K DWT',
-    'SUPRAMAX 58K DWT',
-    'PARADIP 16.0M DRAFT',
-    'VISAKHAPATNAM 16.5M DEEPWATER',
-    'DHAMRA 18.0M BERTH',
-    'AIS LIVE TELEMETRY',
-    'OPEN-METEO WEATHER FEEDS',
-  ];
 
   const sampleOpportunities = [
     {
